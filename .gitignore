@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Ignore dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Ignore testing output
+coverage/
+
+# Ignore production build output
+build/
+
+# Ignore misc system files and environment settings
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore extra files and directories
+Extras/
+torchvenv/
+
+# Other potential ignores
+.vscode/             # Ignore Visual Studio Code settings folder
+.idea/               # Ignore JetBrains IDEs settings folder
+*.log                # Ignore all .log files
+*.swp                # Ignore swap files created by editors like Vim
+*.bak                # Ignore backup files
+*.tmp                # Ignore temporary files
