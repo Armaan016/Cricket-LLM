@@ -3,25 +3,20 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import json
 import sys
+from youtubesearchpython import VideosSearch
 
-# Load the JSON file with player data
+# Load player data
 with open(r'C:\Users\raufu\Desktop\Cricket LLM\cricket\src\player_profiles.json', 'r') as f:
     player_data = json.load(f)
 
-player = sys.argv[1]
-# player = 'Jasprit Bumrah'
-player = player.lower()
+player = sys.argv[1].lower()
+# player = "jasprit bumrah"
 
 def scrape_player_profile(player_name, url, image_url):
     response = requests.get(url)
-    if response.status_code != 200:
-        print(f"Failed to retrieve the URL: {response.status_code}")
-        return None
-
     soup = BeautifulSoup(response.content, 'html.parser')
     
-    player_details = {"Name": player_name}  
-
+    player_details = {"Name": player_name}
     profile_container = soup.find('div', class_='ds-grid lg:ds-grid-cols-3 ds-grid-cols-2 ds-gap-4 ds-mb-8')
     
     if profile_container:
@@ -33,7 +28,7 @@ def scrape_player_profile(player_name, url, image_url):
             value_element = div.find('span', class_='ds-text-title-s ds-font-bold ds-text-typo')
             
             if key_element and value_element:
-                key = key_element.get_text(strip=True).strip(":")  
+                key = key_element.get_text(strip=True).strip(":")
                 value = value_element.get_text(strip=True)
                 player_details[key] = value
 
@@ -49,7 +44,7 @@ def scrape_player_profile(player_name, url, image_url):
                 headers = [header.get_text(strip=True) for header in table.find_all('th')]
                 rows = []
                 
-                for row in table.find_all('tr')[1:]:  
+                for row in table.find_all('tr')[1:]:
                     columns = row.find_all('td')
                     row_data = [column.get_text(strip=True) for column in columns]
                     rows.append(row_data)
@@ -70,6 +65,12 @@ def scrape_player_profile(player_name, url, image_url):
     
     return player_details
 
+def get_youtube_videos(query, limit):
+    videos_search = VideosSearch(query, limit=limit)
+    results = videos_search.result()["result"]
+    video_urls = [result['link'] for result in results]
+    return video_urls
+
 def main():
     all_player_details = []
 
@@ -78,8 +79,12 @@ def main():
         player_details = scrape_player_profile(player, url, image_url)
         
         if player_details:
+            # Get YouTube videos
+            video_query = f"{player_details['Name']} cricket"
+            video_urls = get_youtube_videos(video_query, limit=6)
+            player_details["videos"] = video_urls
+            
             all_player_details.append(player_details)
-            # print(f"Profile for {player} scraped successfully.")
         else:
             print(f"Failed to scrape profile for {player}.")
     else:

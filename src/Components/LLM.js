@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
-import Navbar from './Navbar'
+import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
+import { v4 as uuidv4 } from 'uuid';
 
 const LLM = () => {
     const [question, setQuestion] = useState("");
-    const [chatHistory, setChatHistory] = useState([])
+    const [chatHistory, setChatHistory] = useState([]);
+    const [sessionId, setSessionId] = useState('');
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!sessionId) {
+            setSessionId(uuidv4());
+        }
+        console.log("New session ID: ", sessionId);
+    }, [sessionId]);
 
     const clearChat = () => {
         setChatHistory([]);
+        window.location.reload();
     };
 
     const handleQuestion = async (e) => {
         e.preventDefault();
-        console.log("Question received!")
-        if (!question) {
+        if (!question.trim()) {
             alert("Enter a question first!");
             return;
         }
@@ -21,13 +30,13 @@ const LLM = () => {
         try {
             let result = await fetch('http://localhost:5000/llm', {
                 method: "POST",
-                body: JSON.stringify({ question }),
+                body: JSON.stringify({ question, sessionId }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             result = await result.json();
-            setChatHistory([...chatHistory, { question: question, answer: result.response }]);
+            setChatHistory([...chatHistory, { question, answer: result.response }]);
             setQuestion("");
         } catch (error) {
             console.error("Error: ", error);
@@ -55,17 +64,29 @@ const LLM = () => {
                         </div>
                         <button className='clear-chat-button' onClick={clearChat}>Clear Chat</button>
                     </>
-                    
                 )}
                 {loading && (
-                    <div className='loading-dots'>
-                        Loading Response
-                        <span>.</span><span>.</span><span>.</span>
+                    // <div className='loading-dots'>
+                    //     Loading Response
+                    //     <span>.</span><span>.</span><span>.</span>
+                    // </div>
+                    <div class="loader">
+                        <div class="scanner">
+                            <span>Loading....</span>
+                        </div>
                     </div>
                 )}
-                <form className='chat-input-container'>
-                    <input type="text" name="question" id="question" value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="Enter your question here" className='chat-input' />
-                    <button className='send-button' onClick={handleQuestion}>Ask CricBot</button>
+                <form className='chat-input-container' onSubmit={handleQuestion}>
+                    <input
+                        type="text"
+                        name="question"
+                        id="question"
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        placeholder="Enter your question here"
+                        className='chat-input'
+                    />
+                    <button className='chat-send-button' type="submit">Ask CricBot</button>
                 </form>
             </div>
         </>

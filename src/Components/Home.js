@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import News from './News'
 
 const Home = () => {
   return (
@@ -30,9 +31,10 @@ const Home = () => {
             </div>
           </div>
         </nav>
+        <News />
       </div>
     </>
   )
-} 
+}
 
 export default Home

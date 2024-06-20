@@ -86,17 +86,32 @@
 }
 
 .chat-input {
-  color: white;
+  color: black;
+  background: white;
   flex-grow: 1;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid white;
+  border-radius: 5px;
 }
 
-.loading-spinner {
-  text-align: center;
-  margin-bottom: 20px;
+.chat-send-button {
+  background: green;
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 6px;
+  color: white;
+  height: 47px;
+  margin-left: 3px;
+}
+
+.chat-send-button:hover {
+  background: white;
+  color: green;
+}
+
+.chat-input-container ::placeholder {
+  color: black;
 }
 
 .chat-messages {
@@ -107,9 +122,9 @@
 }
 
 .questions {
-  background: lightgray;
+  background: gray;
   padding: 7px;
-  color: green;
+  color: white;
   margin-bottom: 5px;
   border-radius: 8px;
   /* max-width: 45%; */
@@ -117,8 +132,8 @@
 }
 
 .answers {
-  background: lightgray;
-  color: green;
+  background: gray;
+  color: white;
   padding: 10px;
   border-radius: 8px;
   /* max-width: 45%; */
@@ -174,7 +189,8 @@
 }
 
 .send-button:hover {
-  background: lightgray;
+  background: white;
+  color: green;
 }
 
 .ipl-table {
@@ -244,10 +260,11 @@
   align-items: center;
   font-size: 19px;
   margin-top: 20px;
-  color: #006400;
+  color: white;
 }
 
 .loading-dots span {
+  color: white;
   display: inline-block;
   animation: blink 1s infinite;
 }
@@ -268,11 +285,70 @@
   }
 
   50% {
-    color: black;
+    color: white;
   }
 
   100% {
     color: rgba(0, 0, 0, 0);
+  }
+}
+
+.scanner span {
+  color: transparent;
+  font-size: 1.4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner span::before {
+  content: "Loading...";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  border-right: 4px solid green;
+  overflow: hidden;
+  color: green;
+  animation: load91371 2s linear infinite;
+}
+
+@keyframes load91371 {
+
+  0%,
+  10%,
+  100% {
+    width: 0;
+  }
+
+  10%,
+  20%,
+  30%,
+  40%,
+  50%,
+  60%,
+  70%,
+  80%,
+  90%,
+  100% {
+    border-right-color: transparent;
+  }
+
+  11%,
+  21%,
+  31%,
+  41%,
+  51%,
+  61%,
+  71%,
+  81%,
+  91% {
+    border-right-color: green;
+  }
+
+  60%,
+  80% {
+    width: 100%;
   }
 }
 
@@ -311,6 +387,35 @@
   color: whitesmoke;
 }
 
+.player-videos {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 20px;
+  top: 45px;
+  align-items: center;
+}
+
+.videos-list {
+  /* display: flex; */
+  flex-wrap: wrap;
+  /* gap: 30px; */
+  padding-bottom: 15px;
+  justify-content: center;
+}
+
+.video-container {
+  flex: 1;
+  max-width: 320px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
 .navbar-wrapper ul {
   list-style: none;
   margin: 0;
@@ -329,7 +434,8 @@
   right: 20px;
   top: 15px;
   background-color: #f1f1f1;
-  border: 1px solid #ddd;
+  border: 2px solid white;
+  border-radius: 4px;
 }
 
 .suggestions-list {
@@ -373,4 +479,28 @@
 
 .clear-chat-button:hover {
   background-color: #cc4444;
+}
+
+.news-item {
+  margin-bottom: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.news-item h3 {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.news-item p {
+  color: lightgray;
+  line-height: 1.5;
+}
+
+.news-item span {
+  color: darkgreen;
+  font-size: 0.8rem;
+  font-weight: bold;
 }

@@ -7,8 +7,8 @@ const Profiles = () => {
   const [playerData, setPlayerData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [allPlayerNames, setAllPlayerNames] = useState([]); // Store player names
-  const [suggestions, setSuggestions] = useState([]); // Store filtered suggestions
+  const [allPlayerNames, setAllPlayerNames] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
 
   const capitalizeFirstLetters = (name) => {
     return name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -99,7 +99,7 @@ const Profiles = () => {
                 ))}
               </ul>
             )}
-            <button className='send-button' style={{marginTop: '5px'}} type='submit'>Get Profile</button>
+            <button className='send-button' style={{ marginTop: '5px' }} type='submit'>Get Profile</button>
           </form>
           {loading && (
             <div className='loading-dots'>
@@ -181,6 +181,26 @@ const Profiles = () => {
                   ))}
                 </tbody>
               </table>
+              {playerData['videos'] && (
+                <div className='player-videos'>
+                  <h3 className='player-name'>Player Videos</h3>
+                  <div className='videos-list'>
+                    {playerData['videos'].map((videoUrl, idx) => (
+                      <div key={idx} className='video-container'>
+                        <iframe
+                          width="300"
+                          height="200"
+                          src={videoUrl.replace("watch?v=", "embed/")}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          title={`Video ${idx + 1}`}
+                        ></iframe>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             </div>
           )}
         </div>

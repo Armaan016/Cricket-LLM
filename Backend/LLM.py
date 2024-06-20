@@ -1,44 +1,47 @@
 import sys
 import json
+import torch
 import numpy as np
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
+from sentence_transformers import SentenceTransformer, util
 from transformers import AutoTokenizer, AutoModelForQuestionAnswering, pipeline
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = SentenceTransformer("all-MiniLM-L6-v2").to('cuda')
 
-with open(r'C:\Users\raufu\Desktop\Cricket LLM\cricket\Datasets\embeddings4.json', 'r') as f:
-    embeddings = json.load(f)
+data = pd.read_json(r'C:\\Users\\raufu\\Desktop\\Cricket LLM\\cricket\\Datasets\\combined_embeddings.json')
+embeddings = np.array(data['embedding'].to_list())
+embeddings = torch.tensor(embeddings, dtype=torch.float32).to('cuda')
 
-tokenizer = AutoTokenizer.from_pretrained("bert-large-uncased-whole-word-masking-finetuned-squad")
-qa_model = AutoModelForQuestionAnswering.from_pretrained("bert-large-uncased-whole-word-masking-finetuned-squad")
-qa_pipeline = pipeline("question-answering", model=qa_model, tokenizer=tokenizer)
+tokenizer = AutoTokenizer.from_pretrained("deepset/roberta-base-squad2")
+qa_model = AutoModelForQuestionAnswering.from_pretrained("deepset/roberta-base-squad2").to('cuda')
+qa_pipeline = pipeline("question-answering", model=qa_model, tokenizer=tokenizer, device=0)
 
-def find_closest_contexts(query, embeddings, top_k=3):
-    query_vector = model.encode(query).reshape(1, -1)
-    
-    similarities = []
-    for item in embeddings:
-        chunk_vector = np.array(item['context_embedding']).reshape(1, -1)
-        similarity = cosine_similarity(query_vector, chunk_vector)[0][0]
-        similarities.append((similarity, item['context_chunk']))
-    
-    similarities.sort(key=lambda x: x[0], reverse=True)
-    top_contexts = [context for _, context in similarities[:top_k]]
-    # print(top_contexts)
+def find_closest_contexts(query, data, embeddings, k=3):
+    query_vector = torch.tensor(model.encode(query)).to('cuda')
+    dot_scores = util.dot_score(query_vector, embeddings)
+    top_contexts = torch.topk(dot_scores, k=k)
+    relevant = data.iloc[top_contexts.indices.tolist()[0]]['chunk'].tolist()
+    return relevant
 
-    return top_contexts
+def format_history(history):
+    formatted_history = ""
+    for item in history:
+        formatted_history += f"Question: {item['question']}\nAnswer: {item['answer']}\n\n"
+    return formatted_history
 
-def answer_question(question, embeddings, top_k=3):
-    top_contexts = find_closest_contexts(question, embeddings, top_k)
-    combined_context = ' '.join(top_contexts)
+def answer_question(question, data, chat_history):
+    formatted_history = format_history(chat_history)
+    top_contexts = find_closest_contexts(question, data, embeddings)
+    full_context = formatted_history + "\n".join(top_contexts)
 
-    result = qa_pipeline(question=question, context=combined_context)
+    # print(f"Context: {full_context}\n\n")
+    result = qa_pipeline(question=question, context=full_context)
     return result['answer'].capitalize()
 
-# user_query = "Who was the most successful Indian test captain?"
-user_query = sys.argv[1]
-answer = answer_question(user_query, embeddings, top_k=3)
-
-# print(f'Answer: {answer}')
-print(answer)
+if __name__ == "__main__":
+    question = sys.argv[1]
+    # question = "Who is Virat Kohli"
+    chat_history_json = sys.argv[2] if len(sys.argv) > 2 else "[]"
+    chat_history = json.loads(chat_history_json)
+    answer = answer_question(question, data, chat_history)
+    print("Answer:", answer)
