@@ -7,45 +7,48 @@ const cors = require('cors');
 app.use(express.json());
 app.use(cors());
 
-const chatHistories = {};
+const chatHistories = Object.create(null);
 
 app.post('/llm', (req, res) => {
     try {
         const { question, sessionId } = req.body;
-
-        if (!sessionId) {
-            return res.status(400).json({ error: 'Session ID is required' });
-        }
 
         if (!chatHistories[sessionId]) {
             chatHistories[sessionId] = [];
         }
 
         const sessionHistory = chatHistories[sessionId];
-        const relevantHistory = sessionHistory.slice(-3);
+        const relevantHistory = sessionHistory.slice(-1);
         const chatHistoryJson = JSON.stringify(relevantHistory);
 
-        console.log("Running python script");
+        console.log("Running Python script with question:", question);
+
         const pythonProcess = spawn('python', ['./LLM.py', question, chatHistoryJson]);
 
         let output = '';
+
         pythonProcess.stdout.on('data', (data) => {
             output += data.toString();
         });
 
-        pythonProcess.on('close', () => {
-            console.log(output.trim());
+        pythonProcess.on('close', (code) => {
+            if (code !== 0) {
+                console.error(`Python script exited with code ${code}`);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+
+            console.log("Python script output:", output.trim());
 
             const answer = output.trim();
-            chatHistories[sessionId].push({ question, answer });
+            chatHistories[sessionId].push({ answer });
             res.json({ response: answer });
         });
+
     } catch (error) {
-        console.log(error);
+        console.error("Error occurred:", error);
         res.status(500).json({ error: error.message });
     }
 });
-
 app.post('/ipl', (req, res) => {
     try {
         const { year } = req.body;

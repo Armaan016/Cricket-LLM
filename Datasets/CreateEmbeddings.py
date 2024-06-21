@@ -9,7 +9,7 @@ model = SentenceTransformer("all-MiniLM-L6-v2").to('cuda')
 with open(r'C:\Users\raufu\Desktop\Cricket LLM\cricket\Datasets\combined_questions_final.json', 'r') as f:
     data = json.load(f)
 
-num_sentence_chunk_size = 5
+num_sentence_chunk_size = 3
 embeddings = []
 
 for item in data:

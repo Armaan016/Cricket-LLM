@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 const LLM = () => {
     const [question, setQuestion] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
-    const [sessionId, setSessionId] = useState('');
+    const [sessionId, setSessionId] = useState("");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -66,10 +66,6 @@ const LLM = () => {
                     </>
                 )}
                 {loading && (
-                    // <div className='loading-dots'>
-                    //     Loading Response
-                    //     <span>.</span><span>.</span><span>.</span>
-                    // </div>
                     <div class="loader">
                         <div class="scanner">
                             <span>Loading....</span>

@@ -6,7 +6,7 @@ import sys
 from youtubesearchpython import VideosSearch
 
 # Load player data
-with open(r'C:\Users\raufu\Desktop\Cricket LLM\cricket\src\player_profiles.json', 'r') as f:
+with open('../src/player_profiles.json', 'r') as f:
     player_data = json.load(f)
 
 player = sys.argv[1].lower()
