@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const Ipl = () => {
   const [year, setYear] = useState('');
@@ -10,6 +12,10 @@ const Ipl = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!year) {
+      toast.error("Please select a year!");
+      return;
+    }
     setLoading(true);
     try {
       console.log("Sending year to backend");
@@ -41,7 +47,21 @@ const Ipl = () => {
   };
 
   return (
-    <>
+    <div className='page-wrapper'>
+      <ToastContainer
+        position="top-center"
+        className='toasts'
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ background: 'none' }}
+      />
       <div className='navbar-wrapper'>
         <Navbar />
       </div>
@@ -51,7 +71,7 @@ const Ipl = () => {
           <label htmlFor="year">Select Year:</label>
           <select
             id="year"
-            style={{color: 'green'}}
+            style={{ color: 'green' }}
             value={year}
             onChange={(e) => setYear(e.target.value)}
             required
@@ -64,11 +84,11 @@ const Ipl = () => {
           <button type="submit" className='send-button'>Get Points Table</button>
         </form>
         {loading && (
-                    <div className='loading-dots'>
-                        Loading Table
-                        <span>.</span><span>.</span><span>.</span>
-                    </div>
-                )}
+          <div className='loading-dots'>
+            Loading Table
+            <span>.</span><span>.</span><span>.</span>
+          </div>
+        )}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {pointsTable.length > 0 ? (
           <div className='ipl-table'>
@@ -106,7 +126,7 @@ const Ipl = () => {
           <p>Please select a year to display points table.</p>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

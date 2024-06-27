@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { v4 as uuidv4 } from 'uuid';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const LLM = () => {
     const [question, setQuestion] = useState("");
@@ -23,7 +25,8 @@ const LLM = () => {
     const handleQuestion = async (e) => {
         e.preventDefault();
         if (!question.trim()) {
-            alert("Enter a question first!");
+            // alert("Enter a question first!");
+            toast.error("Enter a question first!");
             return;
         }
         setLoading(true);
@@ -45,18 +48,32 @@ const LLM = () => {
     };
 
     return (
-        <>
+        <div className='main-wrapper'>
+            <ToastContainer
+                position="top-center"
+                className='toasts'
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                style={{ background: 'none' }}
+            />
             <div className='navbar-wrapper'>
                 <Navbar />
             </div>
             <div className='chatbot-container'>
-                <h2 className='ipl-title'>CricBot</h2>
+                <h2 className='chatbot-title'>CricBot</h2>
                 {chatHistory.length > 0 && (
                     <>
                         <div className='chat-messages'>
                             {chatHistory.map((item, index) => (
                                 <div key={index}>
-                                    <div className='questions'>{item.question}</div>
+                                    <p className='questions'>{item.question}</p>
                                     <div className='answers'>{item.answer}</div>
                                     <br />
                                 </div>
@@ -85,7 +102,7 @@ const LLM = () => {
                     <button className='chat-send-button' type="submit">Ask CricBot</button>
                 </form>
             </div>
-        </>
+        </div>
     );
 };
 

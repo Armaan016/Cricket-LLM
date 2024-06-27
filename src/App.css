@@ -1,7 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 * {
-  background-image: url('./Components/Images/forest.jpg');
+  font-family: Ubuntu;
+}
+
+body,
+.ipl-form-container,
+.chatbot-container,
+.home-page {
+  background: url('./Components/Images/forest.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -54,16 +62,16 @@
   flex-direction: column;
 }
 
+
 .chatbot-container {
-  background-color: #f0f0f0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: gray;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   font-size: 18px;
   padding: 20px;
   border-radius: 10px;
-  max-width: 600px;
+  max-width: 800px;
   margin: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
 }
 
 .chatbot-subcontainer {
@@ -86,32 +94,33 @@
 }
 
 .chat-input {
-  color: black;
-  background: white;
+  color: white;
+  background: none;
   flex-grow: 1;
   padding: 10px;
   font-size: 16px;
-  border: 2px solid white;
-  border-radius: 5px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
 }
 
 .chat-send-button {
-  background: green;
-  border: 2px solid white;
+  background: white;
+  border: 2px solid gray;
   border-radius: 5px;
   padding: 6px;
-  color: white;
-  height: 47px;
+  color: gray;
+  height: 49px;
   margin-left: 3px;
 }
 
 .chat-send-button:hover {
-  background: white;
-  color: green;
+  background: gray;
+  color: white;
+  border: 2px solid white;
 }
 
 .chat-input-container ::placeholder {
-  color: black;
+  color: white;
 }
 
 .chat-messages {
@@ -119,23 +128,34 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .questions {
   background: gray;
+  background-size: auto;
   padding: 7px;
+  align-items: flex-end;
+  /* width: fit-content; */
+  word-wrap: break-word;
   color: white;
   margin-bottom: 5px;
   border-radius: 8px;
   /* max-width: 45%; */
-  text-align: left;
+  text-align: right;
 }
 
 .answers {
-  background: gray;
-  color: white;
+  /* background: gray; */
+  width: fit-content;
+  color: gray;
   padding: 10px;
+  word-wrap: break-word;
+  /* text-wrap: nowrap; */
   border-radius: 8px;
+  /* align-items: flex-end; */
+  justify-content: right;
   /* max-width: 45%; */
   text-align: right;
 }
@@ -143,7 +163,7 @@
 .ipl-form-container {
   background-color: #ffffff;
   color: #006400;
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
   padding: 20px;
   margin: 0 auto;
   max-width: 800px;
@@ -153,7 +173,7 @@
 
 .ipl-form-container h1 {
   text-align: center;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   margin-bottom: 20px;
   color: #228B22;
 }
@@ -200,16 +220,25 @@
 
 .ipl-title {
   text-align: center;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   font-size: 28px;
   color: #228B22;
   margin-bottom: 20px;
   text-decoration: underline;
 }
 
+.chatbot-title {
+  text-align: center;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+  font-size: 28px;
+  color: white;
+  margin-bottom: 20px;
+  /* text-decoration: underline; */
+}
+
 .welcome-title {
   text-align: center;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   font-size: 35px;
   color: #228B22;
   /* margin-bottom: 2px; */
@@ -217,13 +246,13 @@
 }
 
 .nav-link:hover {
-  background-color: green;
+  background-color: gray;
   color: #ffffff !important;
 }
 
 .ipl-winner-title {
   text-align: center;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   color: whitesmoke;
   margin-top: 20px;
 }
@@ -293,11 +322,16 @@
   }
 }
 
+.loader {
+  margin-top: 9px;
+  margin-bottom: 2px;
+}
+
 .scanner span {
   color: transparent;
   font-size: 1.4rem;
   position: relative;
-  overflow: hidden;
+  /* overflow: visible; */
 }
 
 .scanner span::before {
@@ -307,9 +341,9 @@
   left: 0;
   width: 0;
   height: 100%;
-  border-right: 4px solid green;
+  border-right: 4px solid white;
   overflow: hidden;
-  color: green;
+  color: white;
   animation: load91371 2s linear infinite;
 }
 
@@ -343,7 +377,7 @@
   71%,
   81%,
   91% {
-    border-right-color: green;
+    border-right-color: white;
   }
 
   60%,
@@ -354,7 +388,7 @@
 
 .player-name {
   text-align: center;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   color: whitesmoke;
   margin-top: 20px;
 }
@@ -430,11 +464,11 @@
 .navbar-wrapper {
   position: absolute;
   font-size: 17px;
-  color: green;
+  color: gray;
   right: 20px;
   top: 15px;
   background-color: #f1f1f1;
-  border: 2px solid white;
+  border: 2.5px solid gray;
   border-radius: 4px;
 }
 
@@ -483,7 +517,7 @@
 
 .news-item {
   margin-bottom: 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   border-bottom: 1px solid #ddd;
   padding-bottom: 0.5rem;
 }

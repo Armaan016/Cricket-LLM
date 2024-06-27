@@ -7,7 +7,7 @@ const Home = () => {
     <>
       <div className="home-page">
         <h2 className='welcome-title'>Welcome to CricketJunction</h2>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" style={{ border: '2px solid gray', borderRadius: '8px', marginTop: '15px', fontSize: '17px' }}>
+        <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ border: '2px solid gray', borderRadius: '8px', marginTop: '15px', fontSize: '17px'}}>
           <div class="container-fluid" >
             <Link style={{ color: 'green' }} class="navbar-brand" to='/'>Home</Link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -9,7 +9,7 @@ import Profiles from './Components/Profiles';
 
 function App() {
   return (
-    <>
+    <div className='app-wrapper'>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -19,7 +19,7 @@ function App() {
           <Route path='/profiles' element={<Profiles />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 
