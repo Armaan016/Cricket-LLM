@@ -4,51 +4,102 @@ const { spawn } = require('child_process');
 const app = express();
 const cors = require('cors');
 
+// const mongoose = require('mongoose');
+const connectDB = require('./mongo');
+const Chat = require('./Schemas');
+const User = require('./User')
+connectDB();
+
 app.use(express.json());
 app.use(cors());
 
-const chatHistories = Object.create(null);
-
-app.post('/llm', (req, res) => {
+app.post('/register', async (req, res) => {
     try {
-        const { question, sessionId } = req.body;
+        const { username, email, password } = req.body;
 
-        if (!chatHistories[sessionId]) {
-            chatHistories[sessionId] = [];
+        let user = new User({ username, email, password });
+        await user.save();
+
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        const user = await User.findOne({ username });
+        if (!user || user.password !== password) {
+            return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const sessionHistory = chatHistories[sessionId];
-        const relevantHistory = sessionHistory.slice(-1);
-        const chatHistoryJson = JSON.stringify(relevantHistory);
+        res.status(200).json({ userId: user._id, username: user.username });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
-        console.log("Running Python script with question:", question);
+app.post('/llm', async (req, res) => {
+    try {
+        const { question, userId } = req.body;
 
-        const pythonProcess = spawn('python', ['./LLM.py', question, chatHistoryJson]);
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
 
+        let chat = await Chat.findOne({ user: userId });
+        if (!chat) {
+            chat = new Chat({ user: userId, conversations: [] });
+        }
+
+        const conversation = { question };
+
+        const pythonProcess = spawn('python', ['./LLM.py', question, JSON.stringify(chat.conversations)]);
         let output = '';
 
         pythonProcess.stdout.on('data', (data) => {
             output += data.toString();
         });
 
-        pythonProcess.on('close', (code) => {
+        pythonProcess.on('close', async (code) => {
             if (code !== 0) {
-                console.error(`Python script exited with code ${code}`);
                 return res.status(500).json({ error: 'Internal server error' });
             }
 
-            console.log("Python script output:", output.trim());
+            const answer = output.trim() || "Sorry, I cannot answer this question.";
+            conversation.answer = answer;
 
-            const answer = output.trim();
-            chatHistories[sessionId].push({ answer });
+            chat.conversations.push(conversation);
+            await chat.save();
+
+            user.chats.push(chat._id);
+            await user.save();
+
             res.json({ response: answer });
         });
-
     } catch (error) {
-        console.error("Error occurred:", error);
         res.status(500).json({ error: error.message });
     }
 });
+
+app.get('/chats/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await User.findById(userId).populate('chats');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json(user.chats);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.post('/ipl', (req, res) => {
     try {
         const { year } = req.body;

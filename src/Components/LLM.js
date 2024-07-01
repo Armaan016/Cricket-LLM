@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { v4 as uuidv4 } from 'uuid';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 const LLM = () => {
     const [question, setQuestion] = useState("");
     const [chatHistory, setChatHistory] = useState([]);
     const [sessionId, setSessionId] = useState("");
     const [loading, setLoading] = useState(false);
+    const [typing, setTyping] = useState("");
 
     useEffect(() => {
         if (!sessionId) {
@@ -25,11 +26,11 @@ const LLM = () => {
     const handleQuestion = async (e) => {
         e.preventDefault();
         if (!question.trim()) {
-            // alert("Enter a question first!");
             toast.error("Enter a question first!");
             return;
         }
         setLoading(true);
+        setTyping("");
         try {
             let result = await fetch('http://localhost:5000/llm', {
                 method: "POST",
@@ -39,13 +40,28 @@ const LLM = () => {
                 }
             });
             result = await result.json();
+            // console.log(result.response);
             setChatHistory([...chatHistory, { question, answer: result.response }]);
+            simulateTyping(result.response);
             setQuestion("");
         } catch (error) {
             console.error("Error: ", error);
         }
         setLoading(false);
     };
+
+    const simulateTyping = (text) => {
+        let index = -1;
+        setTyping("");
+        const interval = setInterval(() => {
+            setTyping((prev) => prev + text.charAt(index));
+            index++;
+            if (index >= text.length) {
+                clearInterval(interval);
+            }
+        }, 30); 
+    };
+
 
     return (
         <div className='main-wrapper'>
@@ -74,7 +90,13 @@ const LLM = () => {
                             {chatHistory.map((item, index) => (
                                 <div key={index}>
                                     <p className='questions'>{item.question}</p>
-                                    <div className='answers'>{item.answer}</div>
+                                    <div className='answers'>
+                                        {typing && index === chatHistory.length - 1 ? (
+                                            <span className='typing-indicator'>{typing}</span>
+                                        ) : (
+                                            item.answer
+                                        )}
+                                    </div>
                                     <br />
                                 </div>
                             ))}
@@ -83,11 +105,10 @@ const LLM = () => {
                     </>
                 )}
                 {loading && (
-                    <div class="loader">
-                        <div class="scanner">
-                            <span>Loading....</span>
-                        </div>
-                    </div>
+                    <div className='loading-dots'>
+                    Loading Response
+                    <span>.</span><span>.</span><span>.</span>
+                  </div>
                 )}
                 <form className='chat-input-container' onSubmit={handleQuestion}>
                     <input

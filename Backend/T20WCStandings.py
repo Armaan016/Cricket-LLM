@@ -17,7 +17,7 @@ d = {
 }
 
 winners = {
-    '2007': "India", '2009': "Pakistan", '2010': "England", '2012': "West Indies", '2014': "Sri Lanka",'2016': "West Indies", '2021': "Australia", '2022': "England",'2024': "-"
+    '2007': "India", '2009': "Pakistan", '2010': "England", '2012': "West Indies", '2014': "Sri Lanka",'2016': "West Indies", '2021': "Australia", '2022': "England",'2024': "India"
 }
 
 def get_t20_table(year):

@@ -133,6 +133,7 @@ body,
 }
 
 .questions {
+  align-self: flex-end;
   background: gray;
   background-size: auto;
   padding: 7px;
@@ -148,6 +149,7 @@ body,
 
 .answers {
   /* background: gray; */
+  align-self: flex-start;
   width: fit-content;
   color: gray;
   padding: 10px;
@@ -157,7 +159,35 @@ body,
   /* align-items: flex-end; */
   justify-content: right;
   /* max-width: 45%; */
-  text-align: right;
+  text-align: left;
+}
+
+.typing-indicator::before {
+  content: attr(data-text);
+  position: relative;
+  color: transparent;
+}
+
+.typing-indicator::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  border-right: 4px solid white;
+  overflow: hidden;
+  color: white;
+  animation: typing 2s steps(20) 1;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 .ipl-form-container {
@@ -270,13 +300,12 @@ body,
 }
 
 .ipl-table th {
-  background-color: #f2f2f2;
+  background-color: gray;
   color: white;
-  /* Dark green */
 }
 
 .ipl-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: gray;
 }
 
 .ipl-table tr:hover {
@@ -322,73 +351,8 @@ body,
   }
 }
 
-.loader {
-  margin-top: 9px;
-  margin-bottom: 2px;
-}
-
-.scanner span {
-  color: transparent;
-  font-size: 1.4rem;
-  position: relative;
-  /* overflow: visible; */
-}
-
-.scanner span::before {
-  content: "Loading...";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  border-right: 4px solid white;
-  overflow: hidden;
-  color: white;
-  animation: load91371 2s linear infinite;
-}
-
-@keyframes load91371 {
-
-  0%,
-  10%,
-  100% {
-    width: 0;
-  }
-
-  10%,
-  20%,
-  30%,
-  40%,
-  50%,
-  60%,
-  70%,
-  80%,
-  90%,
-  100% {
-    border-right-color: transparent;
-  }
-
-  11%,
-  21%,
-  31%,
-  41%,
-  51%,
-  61%,
-  71%,
-  81%,
-  91% {
-    border-right-color: white;
-  }
-
-  60%,
-  80% {
-    width: 100%;
-  }
-}
-
 .player-name {
   text-align: center;
-  /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   color: whitesmoke;
   margin-top: 20px;
 }
