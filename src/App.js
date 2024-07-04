@@ -6,6 +6,8 @@ import Ipl from './Components/Ipl';
 import T20 from './Components/T20'
 import LLM from './Components/LLM';
 import Profiles from './Components/Profiles';
+import Login from './Components/Login';
+import Register from './Components/Register';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path='/t20' element={<T20 />} />
           <Route path='/llm' element={<LLM />} />
           <Route path='/profiles' element={<Profiles />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </BrowserRouter>
     </div>

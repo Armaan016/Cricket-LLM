@@ -228,6 +228,19 @@ body,
   width: 200px;
 }
 
+.ipl-form-container input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.ipl-form-container h5 {
+  padding-top: 15px;
+  color: white;
+}
+
 .send-button {
   padding: 8px 10px;
   background: green;

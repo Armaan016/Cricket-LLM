@@ -22,6 +22,7 @@ app.post('/register', async (req, res) => {
 
         res.status(201).json(user);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -35,6 +36,7 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
+        console.log(user.username, "logged in");
         res.status(200).json({ userId: user._id, username: user.username });
     } catch (error) {
         res.status(500).json({ error: error.message });
