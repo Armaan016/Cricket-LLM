@@ -3,20 +3,38 @@ import { Link } from 'react-router-dom'
 import News from './News'
 
 const Home = () => {
+  const comingFromLogin = localStorage.getItem('loggedIn') ? true : false;
+  console.log(comingFromLogin);
+  // localStorage.clear();
+
+  const handleLogOut = () => {
+    console.log("Logging out...")
+    localStorage.removeItem("loggedIn");
+    window.location.reload();
+  }
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ position: 'absolute', top: '10px', right: '10px', border: '2px solid gray', borderRadius: '8px', fontSize: '17px',padding:'5px' }}>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <Link class="nav-link" style={{ color: 'gray' }} aria-current="page" to='/login'>Login</Link>
-            </li>
-            <li class="nav-item">
-              <Link class="nav-link" style={{ color: 'gray' }} to='/register'>Register</Link>
-            </li>
-          </ul>
+      {!comingFromLogin && (
+        <div style={{ position: 'absolute', top: '10px', right: '10px', maxWidth: '150px' }}>
+          <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ border: '2px solid gray', borderRadius: '8px', fontSize: '17px', padding: '5px' }}>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <Link class="nav-link" style={{ color: 'gray' }} aria-current="page" to='/login'>Login</Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" style={{ color: 'gray' }} to='/register'>Register</Link>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <p style={{ color: 'white', fontSize: '17px', paddingTop: '5px' }}>Access exclusive features such as chat history, and chat room by logging in!</p>
         </div>
-      </nav>
+      )}
+      {comingFromLogin && (
+        <Link onClick={() => handleLogOut()} style={{ position: 'absolute', right: '10px', top: '10px', fontSize: '20px' }}>Log Out</Link>
+      )}
       <div className="home-page">
         <h2 className='welcome-title'>Welcome to CricketJunction</h2>
         <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ border: '2px solid gray', borderRadius: '8px', marginTop: '15px', fontSize: '17px' }}>

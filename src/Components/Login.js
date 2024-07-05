@@ -29,8 +29,10 @@ const Login = () => {
                 toast.error("Invalid credentials! Please try again.");
             } else {
                 toast.success("Login Successful");
+                localStorage.setItem('userId', result.userId);
                 console.log('User ID:', result.userId);
                 console.log('Username:', result.username);
+                localStorage.setItem('loggedIn', true);
                 setTimeout(() => navigate('/'), 2500);
             }
         } catch (error) {

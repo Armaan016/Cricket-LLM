@@ -4,11 +4,39 @@ const { spawn } = require('child_process');
 const app = express();
 const cors = require('cors');
 
-// const mongoose = require('mongoose');
-const connectDB = require('./mongo');
-const Chat = require('./Schemas');
-const User = require('./User')
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect('mongodb://0.0.0.0:27017/chatbot');
+        console.log('MongoDB connected');
+    } catch (error) {
+        console.error('Error connecting to MongoDB', error);
+        process.exit(1);
+    }
+};
 connectDB();
+
+const conversationSchema = new Schema({
+    question: { type: String, required: true },
+    answer: { type: String, required: true },
+}, { timestamps: true });
+
+const chatSchema = new Schema({
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    conversations: [conversationSchema]
+}, { timestamps: true });
+
+const Chat = mongoose.model("Chat", chatSchema)
+
+const userSchema = new Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    chats: [{ type: Schema.Types.ObjectId, ref: 'Chat' }]
+});
+const User = mongoose.model('User', userSchema);
 
 app.use(express.json());
 app.use(cors());
@@ -49,6 +77,7 @@ app.post('/llm', async (req, res) => {
 
         const user = await User.findById(userId);
         if (!user) {
+            console.log("User not found");
             return res.status(404).json({ error: 'User not found' });
         }
 
@@ -59,7 +88,7 @@ app.post('/llm', async (req, res) => {
 
         const conversation = { question };
 
-        const pythonProcess = spawn('python', ['./LLM.py', question, JSON.stringify(chat.conversations)]);
+        const pythonProcess = spawn('python', ['./LLM.py', question]);
         let output = '';
 
         pythonProcess.stdout.on('data', (data) => {
@@ -77,8 +106,10 @@ app.post('/llm', async (req, res) => {
             chat.conversations.push(conversation);
             await chat.save();
 
-            user.chats.push(chat._id);
-            await user.save();
+            if (!user.chats.includes(chat._id)) {
+                user.chats.push(chat._id);
+                await user.save();
+            }
 
             res.json({ response: answer });
         });
@@ -86,6 +117,7 @@ app.post('/llm', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 app.get('/chats/:userId', async (req, res) => {
     try {
