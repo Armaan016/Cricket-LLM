@@ -22,7 +22,6 @@ const LLM = () => {
 
     const fetchUserChats = async (userId) => {
         try {
-            console.log("UserId: ", userId);
             const response = await fetch(`http://localhost:5000/chats/${userId}`);
             let chats = await response.json();
 
@@ -53,9 +52,35 @@ const LLM = () => {
         }
     };
 
-    const clearChat = () => {
-        setChatHistory([]);
-        setSelectedChat(null);
+    const createNewChat = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/chats', {
+                method: 'POST',
+                body: JSON.stringify({ userId }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const newChat = await response.json();
+            setUserChats([...userChats, newChat]);
+            setSelectedChat(newChat);
+            setChatHistory([]);
+        } catch (error) {
+            console.error("Failed to create new chat: ", error);
+        }
+    };
+
+    const deleteChat = async (chatId) => {
+        try {
+            await fetch(`http://localhost:5000/chats/${chatId}`, { method: 'DELETE' });
+            setUserChats(userChats.filter(chat => chat._id !== chatId));
+            // createNewChat();
+
+            toast.success('Chat deleted successfully');
+        } catch (error) {
+            console.error("Failed to delete chat: ", error);
+            toast.error('Failed to delete chat');
+        }
     };
 
     const handleQuestion = async (e) => {
@@ -69,23 +94,22 @@ const LLM = () => {
         try {
             let result = await fetch('http://localhost:5000/llm', {
                 method: "POST",
-                body: JSON.stringify({ question, userId }),
+                body: JSON.stringify({ question, userId, chatId: selectedChat?._id }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             result = await result.json();
-            console.log(result.response);
             if (result && result.response) {
                 const newChatHistory = [...chatHistory, { question, answer: result.response }];
                 setChatHistory(newChatHistory);
                 if (selectedChat) {
-                    setSelectedChat({ ...selectedChat, messages: newChatHistory });
+                    setSelectedChat({ ...selectedChat, conversations: newChatHistory });
                 }
                 simulateTyping(result.response);
                 setQuestion("");
             } else {
-                toast.error("Failed to get a valid response!");
+                toast.error("Failed to get a valid response! Please try again.");
             }
         } catch (error) {
             console.error("Error: ", error);
@@ -133,7 +157,8 @@ const LLM = () => {
                         <ul>
                             {userChats.map((chat, index) => (
                                 <li key={index} onClick={() => handleChatClick(chat)}>
-                                    <Link>Chat {index + 1} - {new Date(chat.createdAt).toLocaleString()}</Link>
+                                    <Link style={{ color: 'white' }}>Chat {index + 1} - {new Date(chat.createdAt).toLocaleString()}</Link>
+                                    <button className='send-button' style={{ padding: '4px', marginLeft: '4px' }} onClick={() => deleteChat(chat._id)}>Delete Chat</button>
                                 </li>
                             ))}
                         </ul>
@@ -160,7 +185,7 @@ const LLM = () => {
 
             {comingFromLogin ? (
                 <div className='chatbot-container'>
-                    <h2 className='chatbot-title'>CricBot</h2>
+                    <h2 style={{ color: 'white' }}>CricBot</h2>
                     {chatHistory.length > 0 && (
                         <>
                             <div className='chat-messages'>
@@ -178,9 +203,9 @@ const LLM = () => {
                                     </div>
                                 ))}
                             </div>
-                            <button className='clear-chat-button' onClick={clearChat}>Clear Chat</button>
                         </>
                     )}
+                    <button className='new-chat-button' onClick={createNewChat}>New Chat</button>
                     {loading && (
                         <div className='loading-dots'>
                             Loading Response
@@ -204,7 +229,7 @@ const LLM = () => {
             ) : (
                 <div className='chatbot-disabled-container'>
                     <h2 className='chatbot-title' style={{ margin: '10px' }}>CricBot</h2>
-                    <p className='login-prompt' style={{ color: 'gray', fontSize: '20px' }}>Please log in to use CricBot and see previous chats.</p>
+                    <p className='login-prompt' style={{ color: 'gray', fontSize: '20px' }}>Please log in to access CricBot and see previous chats.</p>
                 </div>
             )}
         </div>

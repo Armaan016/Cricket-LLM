@@ -39,7 +39,7 @@ const Home = () => {
         <h2 className='welcome-title'>Welcome to CricketJunction</h2>
         <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ border: '2px solid gray', borderRadius: '8px', marginTop: '15px', fontSize: '17px' }}>
           <div class="container-fluid" >
-            <Link style={{ color: 'green' }} class="navbar-brand" to='/'>Home</Link>
+            <Link style={{ color: 'blue' }} class="navbar-brand" to='/'>Home</Link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -56,6 +56,9 @@ const Home = () => {
                 </li>
                 <li class="nav-item">
                   <Link class="nav-link" style={{ color: 'gray' }} to='/llm'>Ask Cricbot</Link>
+                </li>
+                <li class="nav-item">
+                  <Link class="nav-link" style={{ color: 'gray' }} to='/chatroom'>CricRoom</Link>
                 </li>
               </ul>
             </div>

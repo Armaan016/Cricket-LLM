@@ -8,6 +8,7 @@ import LLM from './Components/LLM';
 import Profiles from './Components/Profiles';
 import Login from './Components/Login';
 import Register from './Components/Register';
+import ChatRoom from './Components/ChatRoom';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/profiles' element={<Profiles />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/chatroom' element={<ChatRoom />} />
         </Routes>
       </BrowserRouter>
     </div>

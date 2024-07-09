@@ -20,6 +20,9 @@ const Navbar = () => {
         <li className="nav-item">
           <Link className="nav-link" to='/llm'>Ask Cricbot</Link>
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" to='/chatroom'>CricRoom</Link>
+        </li>
       </ul>
     </nav>
   );

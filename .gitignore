@@ -34,3 +34,5 @@ torchvenv/
 *.swp                # Ignore swap files created by editors like Vim
 *.bak                # Ignore backup files
 *.tmp                # Ignore temporary files
+
+.env

@@ -9,7 +9,7 @@ body,
 .ipl-form-container,
 .chatbot-container,
 .home-page {
-  background: url('./Components/Images/forest.jpg');
+  background: url('./Components/Images/cool-background.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -82,7 +82,7 @@ body,
   /* font-family: "Baloo Paaji 2", sans-serif; */
   text-align: center;
   margin-bottom: 15px;
-  color: #333;
+  /* color: white; */
 }
 
 .chat-input-container {
@@ -192,7 +192,7 @@ body,
 
 .ipl-form-container {
   background-color: #ffffff;
-  color: #006400;
+  color: gray;
   /* font-family: Arial, sans-serif; */
   padding: 20px;
   margin: 0 auto;
@@ -205,7 +205,7 @@ body,
   text-align: center;
   /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   margin-bottom: 20px;
-  color: #228B22;
+  color: gray;
 }
 
 .ipl-form-container form {
@@ -243,7 +243,7 @@ body,
 
 .send-button {
   padding: 8px 10px;
-  background: green;
+  background: gray;
   color: white;
   border: 2px solid gray;
   border-radius: 4px;
@@ -253,7 +253,7 @@ body,
 
 .send-button:hover {
   background: white;
-  color: green;
+  color: gray;
 }
 
 .ipl-table {
@@ -265,7 +265,7 @@ body,
   text-align: center;
   /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   font-size: 28px;
-  color: #228B22;
+  color: gray;
   margin-bottom: 20px;
   text-decoration: underline;
 }
@@ -274,7 +274,7 @@ body,
   text-align: center;
   /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   font-size: 28px;
-  color: white;
+  color: gray;
   margin-bottom: 20px;
   /* text-decoration: underline; */
 }
@@ -283,7 +283,7 @@ body,
   text-align: center;
   /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
   font-size: 35px;
-  color: #228B22;
+  color: gray;
   /* margin-bottom: 2px; */
   margin-top: 15px;
 }
@@ -446,7 +446,7 @@ body,
   top: 15px;
   background-color: #f1f1f1;
   border: 2.5px solid gray;
-  border-radius: 4px;
+  border-radius: 20px;
 }
 
 .suggestions-list {
@@ -475,10 +475,10 @@ body,
   background-color: #f0f0f0;
 }
 
-.clear-chat-button {
+.new-chat-button {
   position: absolute;
   right: 40px;
-  top: 260px;
+  top: 300px;
   background: gray;
   color: white;
   border: none;
@@ -489,14 +489,15 @@ body,
   border-radius: 4px;
 }
 
-.clear-chat-button:hover {
-  background-color: #cc4444;
+.new-chat-button:hover {
+  background-color: white;
+  color: gray;
 }
 
 .news-item {
   margin-bottom: 1rem;
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid gray;
   padding-bottom: 0.5rem;
 }
 
@@ -507,12 +508,12 @@ body,
 }
 
 .news-item p {
-  color: lightgray;
+  color: gray;
   line-height: 1.5;
 }
 
 .news-item span {
-  color: darkgreen;
+  color: gray;
   font-size: 0.8rem;
   font-weight: bold;
 }
@@ -520,7 +521,7 @@ body,
 .user-chats-container {
   position: absolute;
   top: 50px;
-  padding: 10px;
+  /* padding: 5px; */
   margin-left: 0px;
   background-color: gray;
   border: 2px solid gray;
@@ -529,6 +530,7 @@ body,
 
 .user-chats-container h4 {
   color: white;
+  padding: 5px;
 }
 
 .user-chats-container ul {

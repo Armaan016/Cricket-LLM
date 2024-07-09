@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -29,10 +29,11 @@ const Login = () => {
                 toast.error("Invalid credentials! Please try again.");
             } else {
                 toast.success("Login Successful");
-                localStorage.setItem('userId', result.userId);
-                console.log('User ID:', result.userId);
-                console.log('Username:', result.username);
                 localStorage.setItem('loggedIn', true);
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('userId', result.userId);
+                console.log('JWT Token:', result.token);
+                console.log('Username:', result.username);
                 setTimeout(() => navigate('/'), 2500);
             }
         } catch (error) {
@@ -42,7 +43,7 @@ const Login = () => {
             setUsername('');
             setPassword('');
         }
-    }
+    };
 
     return (
         <>
@@ -72,10 +73,9 @@ const Login = () => {
                     <button type='submit' className='send-button'>Login</button>
                     <h5>Not registered yet? <Link to='/register'>Register</Link></h5>
                 </form>
-
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

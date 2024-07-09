@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -22,26 +22,28 @@ const Register = () => {
         method: 'POST',
         body: JSON.stringify({ username, email, password }),
         headers: { 'Content-Type': 'application/json' }
-      })
+      });
 
       const result = await response.json();
 
-      if (result.status === 500) {
-        toast.error("An error occurred! Please try again.");
-      } else {
-        toast.success("User registered successfully!");
+      if (response.status === 201) {
+        toast.success("Registration Successful");
+        localStorage.setItem('token', result.token);
+        console.log('JWT Token:', result.token);
+        console.log('Username:', result.username);
         setTimeout(() => navigate('/login'), 2500);
+      } else {
+        toast.error(result.error || "Registration failed! Please try again.");
       }
-
     } catch (error) {
-      console.log("Error occurred: ", error);
-      toast.error("Failed to login! Please check your internet connection.");
+      console.error("Error:", error);
+      toast.error("Failed to register. Please check your network connection.");
     } finally {
-      setUsername("");
-      setEmail("");
-      setPassword("");
+      setUsername('');
+      setEmail('');
+      setPassword('');
     }
-  }
+  };
 
   return (
     <>
@@ -66,7 +68,7 @@ const Register = () => {
           <input type="text" placeholder='Enter your username here' value={username} onChange={(e) => setUsername(e.target.value)} />
 
           <label htmlFor="email">Email</label>
-          <p style={{ fontSize: '15px' }}>An OTP will be send to this email address for verification</p>
+          {/* <p style={{ fontSize: '15px' }}>An OTP will be sent to this email address for verification</p> */}
           <input type="email" placeholder='Enter your email here' value={email} onChange={(e) => setEmail(e.target.value)} />
 
           <label htmlFor="password">Password</label>
@@ -75,10 +77,9 @@ const Register = () => {
           <button type='submit' className='send-button'>Register</button>
           <h5>Already registered? <Link to='/login'>Click here to login</Link></h5>
         </form>
-
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

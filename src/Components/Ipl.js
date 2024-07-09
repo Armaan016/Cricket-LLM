@@ -71,7 +71,7 @@ const Ipl = () => {
           <label htmlFor="year">Select Year:</label>
           <select
             id="year"
-            style={{ color: 'green' }}
+            style={{ color: 'gray' }}
             value={year}
             onChange={(e) => setYear(e.target.value)}
             required
