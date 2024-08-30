@@ -13,47 +13,47 @@ CricketLLM offers a user-friendly platform where cricket enthusiasts can:
 <br>
 The tech stack used in this project includes:
 <br>
-MERN (MongoDB, Express.js, React.js, Node.js)
-Natural Language Processing (NLP) techniques for the chatbot
-Data scraping, integration for cricket statistics
+1. MERN (MongoDB, Express.js, React.js, Node.js)<br>
+2. Natural Language Processing (NLP) techniques for the chatbot<br>
+3. Data scraping, integration for cricket statistics<br>
 
-Features:
-Chatbot for Cricket Queries
-Interactive Q&A: Users can ask the chatbot various cricket-related questions and receive informative answers.
-Context-Aware Responses: The chatbot understands the context of queries to provide relevant and accurate information.
-IPL Points Tables: Retrieve historical points tables for past IPL seasons.
-T20 World Cup Standings: Access previous standings and results for T20 World Cups.
-Player Statistics: Detailed player statistics including batting averages, bowling records, and more.
-Player Information: Comprehensive profiles featuring career highlights and personal information.
+Features: <br>
+1. Chatbot for Cricket Queries <br>
+2. Interactive Q&A: Users can ask the chatbot various cricket-related questions and receive informative answers.<br>
+3. Context-Aware Responses: The chatbot understands the context of queries to provide relevant and accurate information.<br>
+4. IPL Points Tables: Retrieve historical points tables for past IPL seasons.<br>
+5. T20 World Cup Standings: Access previous standings and results for T20 World Cups.<br>
+6. Player Statistics: Detailed player statistics including batting averages, bowling records, and more.<br>
+7. Player Information: Comprehensive profiles featuring career highlights and personal information.<br>
 
-Setup Instructions:
+Setup Instructions:<br>
 Follow these steps to set up the CricketLLM project on your local machine:
-
-Clone Repository:
+<br>
+1. Clone Repository:
 Clone the repository using the following command: git clone https://github.com/Armaan016/Cricket-LLM.git
-
-Install Dependencies:
+<br>
+2. Install Dependencies:
 Navigate to the project directory and install the required libraries: 
 cd CricketLLM
 npm install
-
-Run Application
+<br>
+3. Run Application
 Start the application with: npm start
-
-Access Application:
+<br>
+4. Access Application:
 Open your web browser and navigate to http://localhost:3000 to access the CricketLLM application.
-
-Project Usage:
-Chatbot Interaction:
+<br>
+Project Usage:<br>
+1. Chatbot Interaction:<br>
 Navigate: Go to the chatbot page.
 Type Queries: Enter your cricket-related questions in the input field.
 Receive Answers: Get instant responses from the chatbot.
-
-View Historical Data:
+<br>
+2. View Historical Data:
 IPL Points Tables: Access the IPL section and select the desired season to view the points table.
 T20 World Cup Standings: Go to the World Cup section and choose a tournament to see the standings.
-
-Player Profiles:
+<br>
+3.Player Profiles:
 Search Players: Use the search bar to find a player by name.
-View Profiles: Click on a player to see detailed statistics and information.
-Contributors: Mohammed Armaan Uddin  
+View Profiles: Click on a player to see detailed statistics and information.<br>
+## Contributors: Mohammed Armaan Uddin  
