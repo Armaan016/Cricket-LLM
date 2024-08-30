@@ -4,14 +4,15 @@ This README details CricketLLM, a web application I developed in the during my S
 CricketLLM is an advanced chatbot and informational platform designed to provide users with comprehensive cricket-related data. From historical IPL points tables to detailed T20 World Cup standings, and player profiles with in-depth statistics, CricketLLM serves as your go-to resource for all things cricket. This project leverages modern technologies to offer a seamless user experience and accurate information.
 
 Project Overview:
+<br>
 CricketLLM offers a user-friendly platform where cricket enthusiasts can:
-
-Ask questions about cricket and receive accurate, context-aware responses.
-Check previous IPL points tables and T20 World Cup standings.
-Explore detailed player profiles, including statistics and other relevant information.
-
+<br>
+1. Ask questions about cricket and receive accurate, context-aware responses.<br>
+2. Check previous IPL points tables and T20 World Cup standings.<br>
+3. Explore detailed player profiles, including statistics and other relevant information.
+<br>
 The tech stack used in this project includes:
-
+<br>
 MERN (MongoDB, Express.js, React.js, Node.js)
 Natural Language Processing (NLP) techniques for the chatbot
 Data scraping, integration for cricket statistics
